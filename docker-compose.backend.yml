@@ -1,0 +1,24 @@
+services:
+  backend:
+    image: 
+    container_name: flop-backend
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      - MODEL_NAME=
+      - MODEL_HASH=
+      - MODEL_DIR=/model
+      - TOPLOC_PRECISION=
+      - DECODE_POLICY=
+      - DECODE_POLICY_HASH=
+      - INFERENCE_API_KEY=
+      - PORT=8000
+    volumes:
+      - :/model:ro
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]

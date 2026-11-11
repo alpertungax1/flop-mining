@@ -1,0 +1,14 @@
+services:
+  caddy:
+    image: caddy:2-alpine
+    container_name: flop-tls
+    restart: unless-stopped
+    network_mode: host
+    command: caddy reverse-proxy --from https:// --to 127.0.0.1:
+    volumes:
+      - caddy-data:/data
+      - caddy-config:/config
+
+volumes:
+  caddy-data:
+  caddy-config:

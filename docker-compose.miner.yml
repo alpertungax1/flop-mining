@@ -1,0 +1,32 @@
+services:
+  worker:
+    image: 
+    container_name: 
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      - FLOP_RPC=
+      - GHOST_MAILBOX_URL=
+      - DA_URL=
+      - MINER_SIGNER_FILE=/signer
+      - MINER_ENCLAVE_KEY_FILE=/session-keys/enclave.seed
+      - GHOST_KEY_FILE=
+      - OPENAI_BASE_URL=
+      - INFERENCE_API_KEY=
+      - MODEL_NAME=
+      - OPENROUTER_MODEL_SLUG=
+      - MODEL_HASH=
+      - TOPLOC_PRECISION=
+      - DECODE_POLICY=
+      - DECODE_POLICY_HASH=
+      - SESSION_BIND_IP=
+      - SESSION_HOST_PORT=
+      - SESSION_PUBLIC_HOST=
+      - SESSION_AUTH_TOKEN=
+    volumes:
+      - :/signer:ro
+      - :/session-keys/enclave.seed:ro
+      - worker-data:/data
+
+volumes:
+  worker-data:

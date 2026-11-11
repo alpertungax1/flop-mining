@@ -1,0 +1,70 @@
+services:
+  backend:
+    image: 
+    container_name: flop-backend
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      - MODEL_NAME=
+      - MODEL_HASH=
+      - MODEL_DIR=/model
+      - TOPLOC_PRECISION=
+      - DECODE_POLICY=
+      - DECODE_POLICY_HASH=
+      - INFERENCE_API_KEY=
+      - PORT=8000
+    volumes:
+      - :/model:ro
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+  worker:
+    image: 
+    container_name: 
+    restart: unless-stopped
+    network_mode: host
+    depends_on:
+      - backend
+    environment:
+      - FLOP_RPC=
+      - GHOST_MAILBOX_URL=
+      - DA_URL=
+      - MINER_SIGNER_FILE=/signer
+      - MINER_ENCLAVE_KEY_FILE=/session-keys/enclave.seed
+      - GHOST_KEY_FILE=
+      - OPENAI_BASE_URL=
+      - INFERENCE_API_KEY=
+      - MODEL_NAME=
+      - OPENROUTER_MODEL_SLUG=
+      - MODEL_HASH=
+      - TOPLOC_PRECISION=
+      - DECODE_POLICY=
+      - DECODE_POLICY_HASH=
+      - SESSION_BIND_IP=
+      - SESSION_HOST_PORT=
+      - SESSION_PUBLIC_HOST=
+      - SESSION_AUTH_TOKEN=
+    volumes:
+      - :/signer:ro
+      - :/session-keys/enclave.seed:ro
+      - worker-data:/data
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: flop-tls
+    restart: unless-stopped
+    network_mode: host
+    command: caddy reverse-proxy --from https:// --to 127.0.0.1:
+    volumes:
+      - caddy-data:/data
+      - caddy-config:/config
+
+volumes:
+  worker-data:
+  caddy-data:
+  caddy-config:

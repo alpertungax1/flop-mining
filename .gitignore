@@ -1,0 +1,21 @@
+# Secret and sensitive files
+.env
+miner-*.env
+signer
+seed.txt
+*.seed
+session-keys/
+*.json
+!releases.json
+
+# Model files and weights
+models/
+model/
+*.safetensors
+*.bin
+*.pt
+
+# Docker volumes and logs
+data/
+logs/
+*.log
